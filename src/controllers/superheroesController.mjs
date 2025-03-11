@@ -1,5 +1,5 @@
 import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes, buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30 } from '../services/superheroesService.mjs';
-import { renderizarSuperheroe, renderizarListaSuperheroes } from '../views/superheroesView.mjs';
+import { renderizarSuperheroe, renderizarListasSuperheroes } from '../views/responseView.mjs';
 
 
 export async function obtenerSuperheroePorIdController(req, res) {
@@ -26,7 +26,7 @@ export async function obtenerTodosLosSuperheroesController(req, res) {
     try {
         const superheroes = await obtenerTodosLosSuperHeroes();
 
-        const superheroesFormateados = renderizarListaSuperheroes(superheroes);
+        const superheroesFormateados = renderizarListasSuperheroes(superheroes);
         res.status(200).json(superheroesFormateados);
 
     } catch (error) {
@@ -45,7 +45,7 @@ export async function buscarSuperheroesPorAtributoController(req, res) {
             return res.status(404).send({ mensaje: 'No se encontraron superhéroes con ese atributo' });
         }
 
-        const superheroesFormateado = renderizarListaSuperheroes(superheroes);
+        const superheroesFormateado = renderizarListasSuperheroes(superheroes);
         res.status(200).json(superheroesFormateado);
 
     } catch (error) {
@@ -65,7 +65,7 @@ export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
             return res.status(404).send({ mensaje: 'No se encontraron superhéroes mayores de 30 años' });
         }
 
-        const superheroesFormateado = renderizarListaSuperheroes(superheroes);
+        const superheroesFormateado = renderizarListasSuperheroes(superheroes);
         res.status(200).json(superheroesFormateado);
 
     } catch (error) {
