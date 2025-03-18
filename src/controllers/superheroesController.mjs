@@ -1,4 +1,4 @@
-import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes, buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30 } from '../services/superheroesService.mjs';
+import { obtenerSuperHeroePorId, obtenerTodosLosSuperHeroes, buscarSuperHeroesPorAtributo, obtenerSuperHeroesMayoresDe30, obtenerSuperheroesPorPoderes } from '../services/superheroesService.mjs';
 import { renderizarSuperheroe, renderizarListasSuperheroes } from '../views/responseView.mjs';
 
 
@@ -45,8 +45,8 @@ export async function buscarSuperheroesPorAtributoController(req, res) {
             return res.status(404).send({ mensaje: 'No se encontraron superhéroes con ese atributo' });
         }
 
-        const superheroesFormateado = renderizarListasSuperheroes(superheroes);
-        res.status(200).json(superheroesFormateado);
+        const superheroesFormateados = renderizarListasSuperheroes(superheroes);
+        res.status(200).json(superheroesFormateados);
 
     } catch (error) {
 
@@ -65,12 +65,31 @@ export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
             return res.status(404).send({ mensaje: 'No se encontraron superhéroes mayores de 30 años' });
         }
 
-        const superheroesFormateado = renderizarListasSuperheroes(superheroes);
-        res.status(200).json(superheroesFormateado);
+        const superheroesFormateados = renderizarListasSuperheroes(superheroes);
+        res.status(200).json(superheroesFormateados);
 
     } catch (error) {
         
         res.status(500).send({ mensaje: 'Error al obtener superhéroes mayores de 30', error: error.message });
 
     }
+}
+
+export async function obtenerSuperheroesPorPoderesController(req, res) {
+    try {
+        console.log(req);
+        const { valor } = req.params;
+        const superheroes = await obtenerSuperheroesPorPoderes(valor);
+        if(superheroes.length === 0){
+            return res.status(404).send({ mensaje: 'No se encontraron superhéroes con esos poderes' });
+        }
+
+        const superheroesFormateados = renderizarListasSuperheroes(superheroes);
+        res.status(200).json(superheroesFormateados);
+
+    } catch (error) {
+        
+        res.status(500).send({ mensaje: 'Error al obtener superhéroes con esos poderes', error: error.message });
+
+    }   
 }
